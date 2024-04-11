@@ -4,7 +4,7 @@
       <div class="card">
         <div class="card-header">
           <h4>Cards</h4>
-          <RouterLink to="/card/create" class="btn btn-primary float-end">
+          <RouterLink to="/cards/create" class="btn btn-primary float-end">
             Add Card
           </RouterLink>
         </div>
@@ -33,10 +33,10 @@
                 <td>{{ card.website }}</td>
                 <td>{{ card.address }}</td>
                 <td>
-                  <RouterLink to="/" class="btn btn-success ">
+                  <RouterLink :to="{path :'/cards/' + card.id+ '/edit'}" class="btn btn-success ">
                     Edit
                   </RouterLink>
-                  <button type="button" class="btn btn-danger ">
+                  <button type="button" @click="deleteCard(card.id)" class="btn btn-danger ">
                     Delete
                   </button>
                 </td>
@@ -76,7 +76,30 @@ export default {
         this.cards = res.data
         // console.log(res);
       })
-  }
+  },
+
+  deleteCard(cardId){
+
+    if(confirm('Are you sure you want to delete this card?')){
+    // console.log(cardId)
+    axios.delete('http://127.0.0.1:8000/api/cards/' + cardId).then(res => {
+
+      alert(res.data.message);
+      this.getCards();
+    })
+    .catch(function (error) {
+            // console.error("Error:", error);
+
+            if (error.response) {
+                console.log("Error response:", error.response);
+                if (error.response.status == 404) {
+                    alert(error.response.massage == 'Card not found');
+                }
+            }
+        });
+
+    }
+  },
 }
 }
 </script>
