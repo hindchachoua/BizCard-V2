@@ -1,21 +1,33 @@
 import { createRouter, createWebHistory } from 'vue-router'
-
-function chekIfUserIsLoggedIn(user) 
-{
-  const store = userAuthStore()
-  if(store.currentToken) return '/'
-}
-function chekIfUserIsNotLoggedIn(user) 
-{
-  const store = userAuthStore()
-  if(!store.currentToken) return '/login'
-}
-
+import Home from '../components/Home.vue'
+import Login from '../components/auth/login.vue'
+import Register from '../components/auth/register.vue'
 import HomeView from '../views/HomeView.vue'
 import CardsView from '../views/Cards/View.vue'
 import CardsCreate from '../views/Cards/Create.vue'
 import CardsEdit from '../views/Cards/Edit.vue'
 import { userAuthStore } from '@/stores/userAuthStore'
+
+
+function checkIfUserIsLoggedIn(to, from, next) {
+  const store = userAuthStore();
+  console.log('checkIfUserIsLoggedIn called, current token:', store.currentToken);
+  if (store.currentToken) {
+      next();
+  } else {
+      next('/login');
+  }
+}
+
+function checkIfUserIsNotLoggedIn(to, from, next) {
+  const store = userAuthStore();
+  console.log('checkIfUserIsNotLoggedIn called, current token:', store.currentToken);
+  if (!store.currentToken) {
+      next();
+  } else {
+      next('/');
+  }
+}
 
 
 const router = createRouter({
@@ -25,31 +37,28 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: Home,
-      beforeEnter: [chekIfUserIsNotLoggedIn]
+      beforeEnter: [checkIfUserIsLoggedIn]
     },
     {
       path: '/login',
       name: 'login',
-      component: login,
-      beforeEnter: [chekIfUserIsLoggedIn]
+      component: Login,
+      beforeEnter: [checkIfUserIsNotLoggedIn]
     },
     {
       path: '/register',
       name: 'register',
-      component: register,
-      beforeEnter: [chekIfUserIsNotLoggedIn]
+      component: Register,
+      beforeEnter: [checkIfUserIsNotLoggedIn]
     },
-    {
-      path: '/',
-      name: 'home',
-      component: HomeView
-    },
+    // {
+    //   path: '/',
+    //   name: 'home',
+    //   component: HomeView
+    // },
     {
       path: '/about',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue')
     },
     {

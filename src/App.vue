@@ -1,10 +1,12 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import Header from './components/layouts/Header.vue'
 </script>
 
 <template>
+  <Header />
   <RouterView></RouterView>
-  <header>
+  <!-- <header>
     <nav class=" navbar-light bg-light">
         <div class="container">
 
@@ -27,9 +29,9 @@ import { RouterLink, RouterView } from 'vue-router'
     </ul>      
     </div>
   </nav>
-  </header>
+  </header> -->
 
-  <RouterView />
+  <!-- <RouterView /> -->
 </template>
 
 <style scoped>

@@ -1,6 +1,6 @@
 import './assets/main.css'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap/dist/css/bootstrap.min.js'
+// // import 'bootstrap/dist/css/bootstrap.min.css'
+// import 'bootstrap/dist/css/bootstrap.min.js'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import 'vue-toastification/dist/index.css'
 import { createPinia } from 'pinia'
